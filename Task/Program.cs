@@ -83,7 +83,7 @@ namespace Task
         {
             Random random = new Random();
             int randomNumber = random.Next(100);
-            int smallWinChance = 40;
+            int smallWinChance = 50;
             int bigWinChance = 10;
 
             double smallWin = random.NextDouble() * 2.0;
