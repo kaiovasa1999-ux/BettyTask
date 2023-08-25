@@ -95,8 +95,7 @@ namespace Task
                 Console.WriteLine($"No luck this time! Your current balance is: ${Math.Round(balance,2)}");
                 return balance;
             }
-
-            if(randomNumber < smallWinChance && randomNumber > bigWinChance)
+            if(randomNumber <= smallWinChance && randomNumber > bigWinChance)
             {
                 double winMoney = amount * smallWin;
                 balance += winMoney;
@@ -112,8 +111,9 @@ namespace Task
                 Console.WriteLine($"Congrats BIG JAK - you won {Math.Round(winMoney,2)}.Your current balance is: ${Math.Round(balance,2)}");
                 return balance;
             }
-
-            return balance += amount;
+            //I am not sure what to do with the balance in case when non of the validations are valid.
+            //Does it wins free spin or something like that ?
+            return balance;
         }
     }
 }
