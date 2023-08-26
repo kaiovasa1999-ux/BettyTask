@@ -19,12 +19,13 @@ namespace Task
                 string inputCommand = Console.ReadLine();
                 string[] daintput = inputCommand.Split(" ");
                 string command = daintput[0];
-                int amount = int.Parse(daintput[1]);
                 if (command == "exit")
                 {
                     Console.WriteLine("Thank you for plaing! Hope to see you again soon.");
                     break;
                 }
+                int amount = int.Parse(daintput[1]);
+
                 bool isValidAmount = ValidateAmount(amount);
                 if (isValidAmount)
                 {
@@ -88,7 +89,7 @@ namespace Task
 
             double smallWin = random.NextDouble() * 2.0;
             double bigWin = random.NextDouble() * (10.0 - 2.0) + 2.0;
-
+            
             if (betsCounter % 2 == 0)
             {
                 balance -= amount;
