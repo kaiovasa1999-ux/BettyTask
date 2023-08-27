@@ -110,14 +110,12 @@ namespace Task
                 {
                     double winMoney = amount * smallWin;
                     balance += winMoney;
-                    Math.Round(balance, 2);
                     Console.WriteLine($"Congrats SMALL JAK - you won {Math.Round(winMoney, 2)}.Your current balance is: ${Math.Round(balance, 2)}");
                 }
                 if (randomNumber <= bigWinChance)
                 {
                     double winMoney = amount * bigWin;
                     balance += winMoney;
-                    Math.Round(balance, 2);
                     Console.WriteLine($"Congrats BIG JAK - you won {Math.Round(winMoney, 2)}.Your current balance is: ${Math.Round(balance, 2)}");
                 }
             }
