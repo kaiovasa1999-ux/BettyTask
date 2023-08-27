@@ -25,7 +25,7 @@ namespace Task
                     Console.WriteLine("Thank you for playing! Hope to see you again soon.");
                     break;
                 }
-                int amount = int.Parse(dataIntput[1]);
+                double amount = double.Parse(dataIntput[1]);
 
 
                 bool isValidAmount = ValidateAmount(amount,command);
@@ -72,13 +72,13 @@ namespace Task
             }
 
         }
-        public static bool ValidateAmount(int? input, string cmd)
+        public static bool ValidateAmount(double? amount, string cmd)
         {
-            if(cmd == "withdrawal" && input != null && input >= minBet)
+            if(cmd == "withdrawal" && amount != null && amount >= minBet)
             {
                 return true;
             }
-            if (input != null && input >= minBet && input <= maxBet)
+            if (amount != null && amount >= minBet && amount <= maxBet)
             {
                 return true;
             }
@@ -88,7 +88,7 @@ namespace Task
         //I thought about the betsCounter and decide to return the previous logic because with this validation
         //(x % 2 == 0) the how logic is pretty predictable, but is still 50% at the end. With this randomNumber > 50
         //the chance to win is again 50% but it is not that predictable
-        private static double BetCalculation(int amount,/*int betsCounter,*/ double balance)
+        private static double BetCalculation(double amount,/*int betsCounter,*/ double balance)
         {
             Random random = new Random();
             int randomNumber = random.Next(1,101);
