@@ -86,7 +86,7 @@ namespace Task
             return false;
         }
         //I thought about the betsCounter and decide to return the previous logic because with this validation
-        //(x % 2 == 0) the how logic is pretty predictable, but is steel 50% at the end. With this randomNumber > 50
+        //(x % 2 == 0) the how logic is pretty predictable, but is still 50% at the end. With this randomNumber > 50
         //the chance to win is again 50% but it is not that predictable
         private static double BetCalculation(int amount,/*int betsCounter,*/ double balance)
         {
