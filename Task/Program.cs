@@ -17,14 +17,14 @@ namespace Task
                 Console.WriteLine("Pleasem submit action: ");
 
                 string inputCommand = Console.ReadLine();
-                string[] daintput = inputCommand.Split(" ");
-                string command = daintput[0];
+                string[] dataIntput = inputCommand.Split(" ");
+                string command = dataIntput[0];
                 if (command == "exit")
                 {
-                    Console.WriteLine("Thank you for plaing! Hope to see you again soon.");
+                    Console.WriteLine("Thank you for playing! Hope to see you again soon.");
                     break;
                 }
-                int amount = int.Parse(daintput[1]);
+                int amount = int.Parse(dataIntput[1]);
 
                 bool isValidAmount = ValidateAmount(amount);
                 if (isValidAmount)
@@ -45,7 +45,7 @@ namespace Task
                             var secondInput = Console.ReadLine();
                             if(secondInput == "exit")
                             {
-                                Console.WriteLine("Thank you for plaing! Hope to see you again soon.");
+                                Console.WriteLine("Thank you for playing! Hope to see you again soon.");
                                 break;
                             }
                             continue;
