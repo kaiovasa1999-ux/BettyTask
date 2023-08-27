@@ -65,7 +65,7 @@ namespace Task
                 }
                 else
                 {
-                    Console.WriteLine("invalid amount. Please provide beteween");
+                    Console.WriteLine($"invalid amount. Please provide beteween {minBet} and {maxBet}");
                 }
             }
 
