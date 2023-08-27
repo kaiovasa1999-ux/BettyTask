@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Runtime.CompilerServices;
 
 namespace Task
@@ -26,7 +27,8 @@ namespace Task
                 }
                 int amount = int.Parse(dataIntput[1]);
 
-                bool isValidAmount = ValidateAmount(amount);
+
+                bool isValidAmount = ValidateAmount(amount,command);
                 if (isValidAmount)
                 {
                     if (command == "deposit")
@@ -70,17 +72,21 @@ namespace Task
             }
 
         }
-        public static bool ValidateAmount(int? input)
+        public static bool ValidateAmount(int? input, string cmd)
         {
-            if (input != null && input > minBet && input <= maxBet)
+            if(cmd == "withdrawal" && input != null && input >= minBet)
+            {
+                return true;
+            }
+            if (input != null && input >= minBet && input <= maxBet)
             {
                 return true;
             }
             Console.WriteLine($"Please provide us amount between {minBet} and {maxBet}");
             return false;
         }
-        //II thought about the betsCounter and decide to return the previous logic because with this validation
-        //(x% 2 == 0) the how logic is pretty predictable, but is steel 50% at the end. With this randomNumber > 50
+        //I thought about the betsCounter and decide to return the previous logic because with this validation
+        //(x % 2 == 0) the how logic is pretty predictable, but is steel 50% at the end. With this randomNumber > 50
         //the chance to win is again 50% but it is not that predictable
         private static double BetCalculation(int amount,/*int betsCounter,*/ double balance)
         {
@@ -92,7 +98,8 @@ namespace Task
 
             double smallWin = random.NextDouble() * 2.0;
             double bigWin = random.NextDouble() * (10.0 - 2.0) + 2.0;
-            randomNumber = 1;
+            double winMoney;
+
             //if(betsCounter % 2 == 0)
             //{
             //    balance -= amount;
@@ -104,21 +111,34 @@ namespace Task
                 balance -= amount;
                 Console.WriteLine($"No luck this time! Your current balance is: ${Math.Round(balance,2)}");
             }
+
             else
             {
+                // PS:I decided to pay attention to the small numbers to prevent some loses to out casino :) 
+                // For example if the algorithm returns winMoney =  22.755141.. if I had leaved  the default behavior
+                // after the rounding the output will be 22.76 and in that case our casino losing money.
+                // But now with this custom rounding I am kind a trimming the numbers behind the second decimal point
+                // and in that case if winMoney = 22.755141 the output will be 22.75 
+
+                int decimalPlaces = 2;
+                double multiplier = Math.Pow(10, decimalPlaces);
+                double roundedWinMoney;
                 if (randomNumber <= smallWinChance && randomNumber > bigWinChance)
                 {
-                    double winMoney = amount * smallWin;
-                    balance += winMoney;
-                    Console.WriteLine($"Congrats SMALL JAK - you won {Math.Round(winMoney, 2)}.Your current balance is: ${Math.Round(balance, 2)}");
+                    winMoney = amount * smallWin;
+                    roundedWinMoney = Math.Floor(winMoney * multiplier) / multiplier;
+                    balance += roundedWinMoney;
+                    Console.WriteLine($"Congrats SMALL JAK - you won {Math.Round(roundedWinMoney, 2)}.Your current balance is: ${Math.Round(balance, 2)}");
                 }
                 if (randomNumber <= bigWinChance)
                 {
-                    double winMoney = amount * bigWin;
-                    balance += winMoney;
-                    Console.WriteLine($"Congrats BIG JAK - you won {Math.Round(winMoney, 2)}.Your current balance is: ${Math.Round(balance, 2)}");
+                    winMoney = amount * bigWin;
+                    roundedWinMoney = Math.Floor(winMoney * multiplier) / multiplier;
+                    balance += roundedWinMoney;
+                    Console.WriteLine($"Congrats BIG JAK - you won {roundedWinMoney:f2}.Your current balance is: ${Math.Round(balance, 2)}");
                 }
             }
+
             return balance;
         }
     }
