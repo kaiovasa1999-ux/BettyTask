@@ -20,6 +20,12 @@ namespace Task
                 string inputCommand = Console.ReadLine();
                 string[] dataIntput = inputCommand.Split(" ");
                 string command = dataIntput[0];
+
+                if(!ValidCommand(command) || dataIntput.Count() > 2)
+                {
+                    Console.WriteLine($"invalid command or amount. Please provide beteween {minBet} and {maxBet} and commands should be (exit,bet,deposit,withdrawal)");
+                    break;
+                }
                 if (command == "exit")
                 {
                     Console.WriteLine("Thank you for playing! Hope to see you again soon.");
@@ -71,7 +77,7 @@ namespace Task
                 }
                 else
                 {
-                    Console.WriteLine($"invalid amount. Please provide beteween {minBet} and {maxBet}");
+                    Console.WriteLine($"invalid command or amount. Please provide beteween {minBet} and {maxBet} and commands should be (exit,bet,deposit,withdrawal)");
                 }
             }
         }
@@ -87,6 +93,15 @@ namespace Task
             }
             Console.WriteLine($"Please provide us amount between {minBet} and {maxBet}");
             return false;
+        }
+
+        private static bool ValidCommand(string cmd)
+        {
+            if(cmd != "exit" && cmd != "deposit" && cmd != "withdrawal" && cmd != "bet")
+            {
+                return false;
+            }
+            return true;
         }
         //I thought about the betsCounter and decide to return the previous logic because with this validation
         //(x % 2 == 0) the how logic is pretty predictable, but is still 50% at the end. With this randomNumber > 50
