@@ -25,44 +25,48 @@ namespace Task
                     Console.WriteLine("Thank you for playing! Hope to see you again soon.");
                     break;
                 }
-                double amount = double.Parse(dataIntput[1]);
 
+                string input = dataIntput[1];
+                double amount;
 
-                bool isValidAmount = ValidateAmount(amount,command);
-                if (isValidAmount)
+                if (double.TryParse(input, out amount))
                 {
-                    if (command == "deposit")
+                    bool isValidAmount = ValidateAmount(amount, command);
+                    if (isValidAmount)
                     {
-                        balance += amount;
-                        Console.WriteLine($"Your deposit of ${amount} was successful. Your current balance is: ${balance}");
-                        continue;
-                    }
-                    if (command == "withdrawal")
-                    {
-                        if(amount <= balance)
+                        if (command == "deposit")
                         {
-                            double left = balance -= amount;
-                            Console.WriteLine($"Your withdrawal of {amount}. Your current balance is: ${Math.Round(left,2)}");
-                            Console.WriteLine("If you want to continue just press enter otherwise type 'exit'");
-                            var secondInput = Console.ReadLine();
-                            if(secondInput == "exit")
+                            balance += amount;
+                            Console.WriteLine($"Your deposit of ${amount} was successful. Your current balance is: ${balance}");
+                            continue;
+                        }
+                        if (command == "withdrawal")
+                        {
+                            if (amount <= balance)
                             {
-                                Console.WriteLine("Thank you for playing! Hope to see you again soon.");
-                                break;
+                                double left = balance -= amount;
+                                Console.WriteLine($"Your withdrawal of {amount}. Your current balance is: ${Math.Round(left, 2)}");
+                                Console.WriteLine("If you want to continue just press enter otherwise type 'exit'");
+                                var secondInput = Console.ReadLine();
+                                if (secondInput == "exit")
+                                {
+                                    Console.WriteLine("Thank you for playing! Hope to see you again soon.");
+                                    break;
+                                }
+                                continue;
+                            }
+                            else
+                            {
+                                Console.WriteLine("NOT ENOUGH BALANCE!!!");
                             }
                             continue;
                         }
-                        else
-                        {
-                            Console.WriteLine("NOT ENOUGH BALANCE!!!");
-                        }
-                        continue;
-                    }
 
-                    if (command == "bet" && amount <= balance)
-                    {
-                        //betsCounter++;
-                        balance += BetCalculation(amount, /*betsCounter,*/balance) - balance;
+                        if (command == "bet" && amount <= balance)
+                        {
+                            //betsCounter++;
+                            balance += BetCalculation(amount, /*betsCounter,*/balance) - balance;
+                        }
                     }
                 }
                 else
@@ -70,15 +74,14 @@ namespace Task
                     Console.WriteLine($"invalid amount. Please provide beteween {minBet} and {maxBet}");
                 }
             }
-
         }
-        public static bool ValidateAmount(double? amount, string cmd)
+        public static bool ValidateAmount(double amount, string cmd)
         {
-            if(cmd == "withdrawal" && amount != null && amount >= minBet)
+            if(cmd == "withdrawal" && amount >= minBet)
             {
                 return true;
             }
-            if (amount != null && amount >= minBet && amount <= maxBet)
+            if(amount >= minBet && amount <= maxBet)
             {
                 return true;
             }
