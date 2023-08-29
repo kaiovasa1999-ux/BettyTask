@@ -12,7 +12,7 @@ namespace Task
         static void Main(string[] args)
         {
             //int betsCounter = 0;
-            double balance = 0;
+            decimal balance = 0;
             while (true)
             {
                 Console.WriteLine("Pleasem submit action: ");
@@ -33,9 +33,9 @@ namespace Task
                 }
 
                 string input = dataIntput[1];
-                double amount;
+                decimal amount;
 
-                if (double.TryParse(input, out amount))
+                if (decimal.TryParse(input, out amount))
                 {
                     bool isValidAmount = ValidateAmount(amount, command);
                     if (isValidAmount)
@@ -50,7 +50,7 @@ namespace Task
                         {
                             if (amount <= balance)
                             {
-                                double left = balance -= amount;
+                                decimal left = balance -= amount;
                                 Console.WriteLine($"Your withdrawal of {amount}. Your current balance is: ${Math.Round(left, 2)}");
                                 Console.WriteLine("If you want to continue just press enter otherwise type 'exit'");
                                 var secondInput = Console.ReadLine();
@@ -81,7 +81,7 @@ namespace Task
                 }
             }
         }
-        public static bool ValidateAmount(double amount, string cmd)
+        public static bool ValidateAmount(decimal amount, string cmd)
         {
             if(cmd == "withdrawal" && amount >= minBet)
             {
@@ -106,7 +106,7 @@ namespace Task
         //I thought about the betsCounter and decide to return the previous logic because with this validation
         //(x % 2 == 0) the how logic is pretty predictable, but is still 50% at the end. With this randomNumber > 50
         //the chance to win is again 50% but it is not that predictable
-        private static double BetCalculation(double amount,/*int betsCounter,*/ double balance)
+        private static decimal BetCalculation(decimal amount,/*int betsCounter,*/ decimal balance)
         {
             Random random = new Random();
             int randomNumber = random.Next(1,101);
@@ -116,7 +116,6 @@ namespace Task
 
             double smallWin = random.NextDouble() * 2.0;
             double bigWin = random.NextDouble() * (10.0 - 2.0) + 2.0;
-            double winMoney;
 
             //if(betsCounter % 2 == 0)
             //{
@@ -139,18 +138,20 @@ namespace Task
                 // and in that case if winMoney = 22.755141 the output will be 22.75 
 
                 int decimalPlaces = 2;
-                double multiplier = Math.Pow(10, decimalPlaces);
-                double roundedWinMoney;
+                decimal multiplier = (decimal)Math.Pow(10, decimalPlaces);
+                decimal winMoney;
+                decimal roundedWinMoney;
                 if (randomNumber <= smallWinChance && randomNumber > bigWinChance)
                 {
-                    winMoney = amount * smallWin;
+                    winMoney = amount * (decimal)smallWin;
+
                     roundedWinMoney = Math.Floor(winMoney * multiplier) / multiplier;
                     balance += roundedWinMoney;
                     Console.WriteLine($"Congrats SMALL JAK - you won {Math.Round(roundedWinMoney, 2)}.Your current balance is: ${Math.Round(balance, 2)}");
                 }
                 if (randomNumber <= bigWinChance)
                 {
-                    winMoney = amount * bigWin;
+                    winMoney = amount * (decimal)bigWin;
                     roundedWinMoney = Math.Floor(winMoney * multiplier) / multiplier;
                     balance += roundedWinMoney;
                     Console.WriteLine($"Congrats BIG JAK - you won {roundedWinMoney:f2}.Your current balance is: ${Math.Round(balance, 2)}");
