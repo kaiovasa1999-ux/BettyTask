@@ -20,16 +20,22 @@ namespace Task
                 string inputCommand = Console.ReadLine();
                 string[] dataIntput = inputCommand.Split(" ");
                 string command = dataIntput[0];
+                string[] validCommands = { "exit", "bet", "deposit", "withdrawal" };
 
-                if(!ValidCommand(command) || dataIntput.Count() > 2)
+                if(!ValidCommand(command, validCommands) || dataIntput.Count() > 2)
                 {
-                    Console.WriteLine($"invalid command or amount. Please provide beteween {minBet} and {maxBet} and commands should be (exit,bet,deposit,withdrawal)");
-                    break;
+                    Console.WriteLine($"invalid command or amount. Please provide beteween {minBet} and {maxBet} and commands should be {string.Join(", ",validCommands)}");
+                    continue;
                 }
                 if (command == "exit")
                 {
                     Console.WriteLine("Thank you for playing! Hope to see you again soon.");
                     break;
+                }
+                else if(command != "exit" && dataIntput.Count() <2)
+                {
+                    Console.WriteLine("Invalid input");
+                    continue;
                 }
 
                 string input = dataIntput[1];
@@ -59,7 +65,12 @@ namespace Task
                                     Console.WriteLine("Thank you for playing! Hope to see you again soon.");
                                     break;
                                 }
-                                continue;
+                                else
+                                {
+                                    Console.WriteLine("Good choice!!!");
+                                    continue;
+
+                                }
                             }
                             else
                             {
@@ -71,38 +82,38 @@ namespace Task
                         if (command == "bet" && amount <= balance)
                         {
                             //betsCounter++;
-                            balance += BetCalculation(amount, /*betsCounter,*/balance) - balance;
+                            balance = BetCalculation(amount, /*betsCounter,*/balance);
                         }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Please provide us amount between {minBet} and {maxBet}");
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"invalid command or amount. Please provide beteween {minBet} and {maxBet} and commands should be (exit,bet,deposit,withdrawal)");
+                    Console.WriteLine($"invalid command or amount. Please provide beteween {minBet} and {maxBet} and commands should be {string.Join(", ", validCommands)}");
                 }
             }
         }
         public static bool ValidateAmount(decimal amount, string cmd)
         {
-            if(cmd == "withdrawal" && amount >= minBet)
+            if(cmd == "withdrawal" && amount >= 1)
             {
                 return true;
             }
-            if(amount >= minBet && amount <= maxBet)
+            if(amount >= 1 && amount <= maxBet)
             {
                 return true;
             }
-            Console.WriteLine($"Please provide us amount between {minBet} and {maxBet}");
             return false;
         }
 
-        private static bool ValidCommand(string cmd)
+        private static bool ValidCommand(string cmd, string[] commands)
         {
-            if(cmd != "exit" && cmd != "deposit" && cmd != "withdrawal" && cmd != "bet")
-            {
-                return false;
-            }
-            return true;
+            return commands.Contains(cmd);
         }
+
         //I thought about the betsCounter and decide to return the previous logic because with this validation
         //(x % 2 == 0) the how logic is pretty predictable, but is still 50% at the end. With this randomNumber > 50
         //the chance to win is again 50% but it is not that predictable
