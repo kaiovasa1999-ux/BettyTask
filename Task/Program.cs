@@ -152,20 +152,23 @@ namespace Task
                 decimal multiplier = (decimal)Math.Pow(10, decimalPlaces);
                 decimal winMoney;
                 decimal roundedWinMoney;
+                decimal realProfit;
+                randomNumber =11;
                 if (randomNumber <= smallWinChance && randomNumber > bigWinChance)
                 {
                     winMoney = amount * (decimal)smallWin;
-
                     roundedWinMoney = Math.Floor(winMoney * multiplier) / multiplier;
-                    balance += roundedWinMoney;
-                    Console.WriteLine($"Congrats SMALL JAK - you won {Math.Round(roundedWinMoney, 2)}.Your current balance is: ${Math.Round(balance, 2)}");
+                    realProfit = Math.Abs(roundedWinMoney - amount);
+                    balance += realProfit;
+                    Console.WriteLine($"Congrats SMALL JAK - you won {Math.Round(realProfit, 2)}.Your current balance is: ${Math.Round(balance, 2)}");
                 }
                 if (randomNumber <= bigWinChance)
                 {
                     winMoney = amount * (decimal)bigWin;
                     roundedWinMoney = Math.Floor(winMoney * multiplier) / multiplier;
-                    balance += roundedWinMoney;
-                    Console.WriteLine($"Congrats BIG JAK - you won {roundedWinMoney:f2}.Your current balance is: ${Math.Round(balance, 2)}");
+                    realProfit = Math.Abs(roundedWinMoney - amount);
+                    balance += realProfit;
+                    Console.WriteLine($"Congrats BIG JAK - you won {realProfit:f2}.Your current balance is: ${Math.Round(balance, 2)}");
                 }
             }
 
